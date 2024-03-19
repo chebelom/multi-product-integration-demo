@@ -59,22 +59,22 @@ resource "tfe_workspace" "vault_auth_config" {
   global_remote_state = true
 }
 
-# resource "tfe_workspace" "boundary_config" {
-#   name          = "4_boundary-config"
-#   organization  = var.tfc_organization
-#   project_id    = var.tfc_project_id
+resource "tfe_workspace" "boundary_config" {
+  name          = "4_boundary-config"
+  organization  = var.tfc_organization
+  project_id    = var.tfc_project_id
 
-#   vcs_repo {
-#     identifier = var.repo_identifier
-#     oauth_token_id = var.oauth_token_id
-#     branch = var.repo_branch
-#   }
+  vcs_repo {
+    identifier = var.repo_identifier
+    oauth_token_id = var.oauth_token_id
+    branch = var.repo_branch
+  }
 
-#   working_directory = "4_boundary-config"
-#   queue_all_runs = false
-#   assessments_enabled = false
-#   global_remote_state = true
-# }
+  working_directory = "4_boundary-config"
+  queue_all_runs = false
+  assessments_enabled = false
+  global_remote_state = true
+}
 
 resource "tfe_workspace" "nomad_cluster" {
   name          = "5_nomad-cluster"
@@ -180,26 +180,26 @@ resource "tfe_workspace_run" "vault_auth_config" {
   }
 }
 
-# resource "tfe_workspace_run" "boundary_config" {
-#   depends_on = [ tfe_workspace_run.vault_auth_config ]
-#   workspace_id    = tfe_workspace.boundary_config.id
+resource "tfe_workspace_run" "boundary_config" {
+  depends_on = [ tfe_workspace_run.vault_auth_config ]
+  workspace_id    = tfe_workspace.boundary_config.id
 
-#   apply {
-#     manual_confirm    = false
-#     wait_for_run      = true
-#     retry_attempts    = 5
-#     retry_backoff_min = 5
-#   }
-#   destroy {
-#     manual_confirm    = false
-#     wait_for_run      = true
-#     retry_attempts    = 5
-#     retry_backoff_min = 5
-#   }
-# }
+  apply {
+    manual_confirm    = false
+    wait_for_run      = true
+    retry_attempts    = 5
+    retry_backoff_min = 5
+  }
+  destroy {
+    manual_confirm    = false
+    wait_for_run      = true
+    retry_attempts    = 5
+    retry_backoff_min = 5
+  }
+}
 
 resource "tfe_workspace_run" "nomad_cluster" {
-  # depends_on = [ tfe_workspace_run.boundary_config ]
+  depends_on = [ tfe_workspace_run.boundary_config ]
   workspace_id    = tfe_workspace.nomad_cluster.id
 
   apply {
