@@ -199,7 +199,7 @@ resource "tfe_workspace_run" "vault_auth_config" {
 # }
 
 resource "tfe_workspace_run" "nomad_cluster" {
-  depends_on = [ tfe_workspace_run.boundary_config ]
+  # depends_on = [ tfe_workspace_run.boundary_config ]
   workspace_id    = tfe_workspace.nomad_cluster.id
 
   apply {
