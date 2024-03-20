@@ -4,6 +4,7 @@ job "demo-frontend" {
     type = "service"
     
     group "frontend" {
+        count = 2
         network {
             mode = "bridge"
 
@@ -30,7 +31,6 @@ job "demo-frontend" {
         }
         task "frontend" {
             driver = "docker"
-            count = 2
             vault {
                 policies = ["nomad"]
                 change_mode   = "restart"
