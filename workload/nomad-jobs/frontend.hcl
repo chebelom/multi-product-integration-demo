@@ -30,6 +30,7 @@ job "demo-frontend" {
         }
         task "frontend" {
             driver = "docker"
+            count = 2
             vault {
                 policies = ["nomad"]
                 change_mode   = "restart"
